@@ -1,0 +1,22 @@
+<div class="page-header">
+  <h1>Chat :) <small>with <%= @user.email %></small></h1>
+</div>
+<div class="row">
+  <div class="span8">
+    <div class="thumbnail" id="chat">
+      <% @chat_messages.each do |m| %>
+        <%= render(m) %>
+      <% end %>
+    </div>
+  </div>
+</div>
+<hr />
+<div class="row">
+  <div class="span5">
+    <%= form_for @message, :url => {:action => "create"}, :remote => true, :html => {:class => "well form-inline"} do |f| %>
+      <%= f.hidden_field :to_user_id, :value => params[:id] %>
+      <%= f.text_field :message, :class => "input-xlarge" %>
+      <%= f.submit "Send", :class => "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>

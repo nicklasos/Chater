@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chater</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Chat room">
+  <meta name="author" content="Nicklasos">
+  <style>
+    body {
+      padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+    }
+  </style>
+  <%= stylesheet_link_tag    "application" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </a>
+        <%= link_to "Chater", root_url, {class: "brand"} %>
+        <div class="nav-collapse">
+          <ul class="nav">
+            <li><%= link_to "Home", root_url %></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+        <ul class="nav pull-right">
+          <% if user_signed_in? %>
+            <li><%= link_to current_user.email, "#" %></li>
+            <li><%= link_to "Sign out", destroy_user_session_path, {method: "delete"} %></li>
+          <% else %>
+            <li><%= link_to "Sign up", new_user_registration_path %></li>
+            <li><%= link_to "Sign in", new_user_session_path %></li>
+          <% end %>
+        </ul>
+      </div><!--/.container -->
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="span6 offset3">
+      <% if flash[:notice] %>
+        <div class="alert alert-success fade in">
+          <a class="close" href = "#" data-dismiss="alert">×</a>
+          <%= flash[:notice] %>
+        </div>
+      <% end %>
+
+      <% if flash[:alert] %>
+        <div class="alert alert-error fade in">
+          <a class="close" href="#" data-dismiss="alert">×</a>
+          <%= flash[:alert] %>
+        </div>
+      <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <%= yield %>
+  </div>
+
+</body>
+</html>
