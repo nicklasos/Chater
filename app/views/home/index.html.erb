@@ -15,3 +15,26 @@
     </strong>
   </div>
 </div>
+<br /><br />
+<hr />
+<div class="row">
+  <div class="span12">
+    <h1>Rooms <small>Join your friends</small></h1>
+  </div>
+</div>
+<div class="row">
+  <div class="span12">
+    <% @rooms.each do |room| %>
+      <i class="icon-comment"></i> <%= link_to room.name, room %>&nbsp;&nbsp;
+    <% end %>
+  </div>
+</div>
+<div class="row">
+  <div class="span12">
+    <br /><br />
+    <%= form_for @room, :html => {:class => "form-inline"} do |f| %>
+      <%= f.text_field :name, :class => "input" %>
+      <%= f.submit "Create new room", :class => "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>
