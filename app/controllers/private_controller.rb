@@ -15,7 +15,7 @@ class PrivateController < ApplicationController
     if @message.valid?
 
       message = {:channel => "/private/#{params[:message][:user_id]}",
-          :data => { :message => @message.message, :name => @message.user.email, :time => @message.created_at.strftime("%H:%M")}
+          :data => { :message => CGI.escapeHTML(@message.message), :name => @message.user.email, :time => @message.created_at.strftime("%H:%M")}
       }
 
       uri = URI.parse("http://localhost:9292/faye")
