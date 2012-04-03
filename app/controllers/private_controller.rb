@@ -14,6 +14,6 @@ class PrivateController < ApplicationController
       :to_user_id => params[:message][:to_user_id],
       :message => params[:message][:message])
 
-
+    render :partial => "create.js"
   end
 end
