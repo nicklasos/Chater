@@ -9,11 +9,21 @@ class PrivateController < ApplicationController
   end
 
   def create
-    @message = Message.create(
-      :user_id => current_user.id,
-      :to_user_id => params[:message][:to_user_id],
-      :message => params[:message][:message])
+    params[:message][:user_id] = current_user.id
+    @message = Message.create(params[:message])
 
-    render :partial => "create.js"
+    if @message.valid?
+
+      message = {:channel => "/private/#{params[:message][:user_id]}",
+          :data => { :message => @message.message, :name => @message.user.email, :time => @message.created_at.strftime("%H:%M")}
+      }
+
+      uri = URI.parse("http://localhost:9292/faye")
+      Net::HTTP.post_form(uri, :message => message.to_json)
+    
+      render :partial => "create.js"
+    else
+      render :nothing => true
+    end
   end
 end

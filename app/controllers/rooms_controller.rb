@@ -8,21 +8,30 @@ class RoomsController < ApplicationController
   end
 
   def create_message
-    @message = Message.create(
-      :user_id => current_user.id,
-      :message => params[:message][:message],
-      :room_id => params[:message][:room_id])
+    params[:message][:user_id] = current_user.id
+    @message = Message.create(params[:message])
 
-      render :partial => "private/create.js"
+    if @message.valid?
+      message = {:channel => "/rooms/#{params[:message][:room_id]}",
+          :data => { :message => @message.message, :name => @message.user.email, :time => @message.created_at.strftime("%H:%M")}
+      }
+
+      uri = URI.parse("http://localhost:9292/faye")
+      Net::HTTP.post_form(uri, :message => message.to_json)
+
+      render :partial => "ok.js"
+    else
+      render :nothing => true
+    end
   end
 
   def create
-    @room = Room.new(params[:room])
+    @room = Room.create(params[:room])
 
-    if @room.save
+    if @room.valid?
       redirect_to @room, notice: 'New room was successfully created'
     else
-      redirect_to root_url, alert: 'Error'
+      redirect_to root_url, alert: 'Enter room name'
     end
   end
 end

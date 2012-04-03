@@ -1,1 +1,10 @@
 WebSocket chat
+
+gem install thin
+
+to run project:
+$ rails s -d
+$ thin start -R faye.ru -e production -p 9292
+
+or 
+$ bundle exec rackup faye.ru -s thin -E production 
