@@ -5,7 +5,7 @@ class PrivateController < ApplicationController
     @user = User.find(params[:id])
     @message = Message.new
     @chat_messages = Message.where("(user_id = ? AND to_user_id = ?) OR (user_id = ? AND to_user_id = ?)", 
-      params[:id], current_user.id, current_user.id, params[:id]).order("id ASC")
+      params[:id], current_user.id, current_user.id, params[:id]).order("id DESC").limit(10).reverse
   end
 
   def create
@@ -25,5 +25,11 @@ class PrivateController < ApplicationController
     else
       render :nothing => true
     end
+  end
+
+  def history
+    @user = User.find(params[:id])
+    @chat_messages = Message.where("(user_id = ? AND to_user_id = ?) OR (user_id = ? AND to_user_id = ?)", 
+      params[:id], current_user.id, current_user.id, params[:id]).order("id ASC")
   end
 end

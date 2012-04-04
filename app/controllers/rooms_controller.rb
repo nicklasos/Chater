@@ -4,7 +4,7 @@ class RoomsController < ApplicationController
   def show
     @room = Room.find(params[:id])
     @message = Message.new
-    @room_messages = Message.where("room_id = ?", params[:id])
+    @room_messages = Message.where("room_id = ?", params[:id]).order("id DESC").limit(10).reverse
   end
 
   def create_message
@@ -33,5 +33,10 @@ class RoomsController < ApplicationController
     else
       redirect_to root_url, alert: 'Enter room name'
     end
+  end
+
+  def history
+    @room = Room.find(params[:id])
+    @room_messages = Message.where("room_id = ?", params[:id])
   end
 end

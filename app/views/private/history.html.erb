@@ -1,0 +1,14 @@
+<div class="page-header">
+  <h1>Chat :) <small>with <%= @user.email %></small></h1>
+</div>
+<div class="row">
+  <div class="span8">
+    <p><strong><i class="icon-share-alt"></i> <%= link_to "Back", {:action => "show", :id => params[:id]} %></strong></p>
+    <div class="thumbnail" id="chat">
+      <% @chat_messages.each do |m| %>
+        <%= render(m) %>
+      <% end %>
+    </div>
+  </div>
+</div>
+<br /><br />

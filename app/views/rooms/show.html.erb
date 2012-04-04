@@ -11,6 +11,12 @@ $(function() {
 </div>
 <div class="row">
   <div class="span8">
+    <p>
+      <strong>
+        <i class="icon-folder-open"></i> <%= link_to "History", {:action => "history", :id => params[:id]} %>&nbsp;&nbsp;
+        <i class="icon-trash"></i> <a href="javascript:$('#chat').html(''); void(0);">Clear</a>
+      </strong>
+    </p>
     <div class="thumbnail" id="chat">
       <% @room_messages.each do |m| %>
         <%= render :partial => 'messages/message', :locals => {:message => m} %>

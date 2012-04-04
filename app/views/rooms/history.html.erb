@@ -1,0 +1,14 @@
+<div class="page-header">
+  <h1>History <small>in <%= @room.name %></small></h1>
+</div>
+<div class="row">
+  <div class="span8">
+    <p><strong><i class="icon-share-alt"></i> <%= link_to "Back", {:action => "show", :id => params[:id]} %></strong></p>
+    <div class="thumbnail" id="chat">
+      <% @room_messages.each do |m| %>
+        <%= render :partial => 'messages/message', :locals => {:message => m} %>
+      <% end %>
+    </div>
+  </div>
+</div>
+<br /><br />
