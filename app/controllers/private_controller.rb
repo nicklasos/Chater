@@ -1,5 +1,6 @@
 class PrivateController < ApplicationController
   before_filter :authenticate_user!
+  before_filter :check_same_user
 
   def show
     @user = User.find(params[:id])
@@ -18,6 +19,13 @@ class PrivateController < ApplicationController
         id: params[:message][:user_id],
         broadcast_uri: request.host
       })
+
+      Message.broadcast({
+        message: @message,
+        type: "user",
+        id: params[:message][:to_user_id],
+        broadcast_uri: request.host
+      })
     
       render :partial => "create.js"
     else
@@ -28,5 +36,11 @@ class PrivateController < ApplicationController
   def history
     @user = User.find(params[:id])
     @chat_messages = Message.get_messages(params[:id], current_user.id)
+  end
+
+  private
+
+  def check_same_user
+    redirect_to root_url, alert: "Forever alone?" if current_user.id == params[:id].to_i
   end
 end

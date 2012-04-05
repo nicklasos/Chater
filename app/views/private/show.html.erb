@@ -1,16 +1,17 @@
 <script>
 $(function() {
-  var client = new Faye.Client('http://<%= request.host %>:9292/faye');
+    var client = new Faye.Client('http://<%= request.host %>:9292/faye');
     client.subscribe("/private/<%= params[:id] %>", function(data) {
-      $('#chat').append("<p><small>"+data.time+"</small> <strong>"+data.name+"</strong>: "+data.message+"</p>");
-      var audioElement = document.createElement('audio');
-      audioElement.setAttribute('src', '/notification.wav');
-      audioElement.play();
+        $('#chat').append("<p><small>"+data.time+"</small> <strong>"+data.name+"</strong>: "+data.message+"</p>");
+        var audioElement = document.createElement('audio');
+        audioElement.setAttribute('src', '/notification.wav');
+        audioElement.play();
     });
-  });
+});
 </script>
 <div class="page-header">
   <h1>Chat :) <small>with <%= @user.email %></small> <%= gravatar_for @user.email, :size => 32 %></h1>
+  <input type="hidden" value="<%= @user.email %>" id="now_chat_with" />
 </div>
 <div class="row">
   <div class="span8">

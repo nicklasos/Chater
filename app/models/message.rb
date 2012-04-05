@@ -44,6 +44,8 @@ class Message < ActiveRecord::Base
         :data => {
           :message => emoticons(CGI.escapeHTML(params[:message].message)), 
           :name => params[:message].user.email, 
+          :from_user_id => params[:message].user.id,
+          :type => params[:type],
           :time => params[:message].created_at.strftime("%H:%M")
         }
       }

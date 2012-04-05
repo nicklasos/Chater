@@ -8,10 +8,9 @@
   <div class="span12">
     <strong>
     <% @users.each do |user| %>
-      <%# if !user_signed_in? or current_user.id != user.id %>
-      <!--i class="icon-user"></i-->
+      <% if !user_signed_in? or current_user.id != user.id %>
       <%= gravatar_for user.email, :size => 32 %> <%= link_to user.email, private_path(user) %>&nbsp;&nbsp;
-      <%# end%>
+      <% end%>
     <% end %>
     </strong>
   </div>

@@ -3,5 +3,33 @@
 }
 
 #chat {
-  min-height: 50px
+  min-height: 70px
+}
+
+/* Flash */
+.Flash {
+  -moz-box-shadow: 3px 3px 3px gray;
+  -webkit-box-shadow: 3px 3px 3px gray;
+  box-shadow: 3px 3px 3px gray;
+
+  -webkit-border-radius: 10px;
+  -webkit-border-top-left-radius: 0;
+  -moz-border-radius: 10px;
+  -moz-border-radius-topleft: 0;
+  border-radius: 10px;
+  border-top-left-radius: 0;
+
+  position: fixed;
+  left: 15px;
+  top: 70px;
+
+  width: 200px;
+  padding: 15px;
+
+  /*text-align: center;*/
+  font-weight: bold;
+
+  font-family: Arial;
+  background-color: #fff2a8;
+  color: #07c
 }

@@ -68,6 +68,24 @@
   <div class="container">
     <%= yield %>
   </div>
+  <% if user_signed_in? %>
+  <script>
+    $(document).ready(function() {
+      var client = new Faye.Client('http://<%= request.host %>:9292/faye');
+      client.subscribe("/user/<%= current_user.id %>", function(data) {
+        if ($('#now_chat_with').val() != data.name) { 
+          var audioElement = document.createElement('audio');
+          audioElement.setAttribute('src', '/notification.wav');
+          audioElement.play();
 
+          var message = data.message + "<br />From: <a href='/private/"+data.id+"'>" + data.name + "</a>";
+
+          Flash.message(message, null, 160000);
+
+        }
+      });
+    });
+  </script>
+  <% end %>
 </body>
 </html>
