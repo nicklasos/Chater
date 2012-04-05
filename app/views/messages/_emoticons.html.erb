@@ -1,0 +1,7 @@
+<div class="span6 well">
+  <center>
+  <% Message.smiles.each do |s| %>
+    <a href="javascript:addSmile('<%= s %>'); void(0);"><img src="/smiles/<%= s %>.gif" alt="<%= s %>" /></a>
+  <% end %>
+  </center>
+</div>
