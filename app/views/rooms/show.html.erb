@@ -1,6 +1,6 @@
 <script>
 $(function() {
-  var client = new Faye.Client('http://localhost:9292/faye');
+  var client = new Faye.Client('http://<%= request.host %>:9292/faye');
   client.subscribe("/rooms/<%= params[:id] %>", function(data) {
     $('#chat').append("<p><small>"+data.time+"</small> <strong>"+data.name+"</strong>: "+data.message+"</p>");
   });

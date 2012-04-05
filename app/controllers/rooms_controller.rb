@@ -12,12 +12,12 @@ class RoomsController < ApplicationController
     @message = Message.create(params[:message])
 
     if @message.valid?
-      message = {:channel => "/rooms/#{params[:message][:room_id]}",
-          :data => { :message => CGI.escapeHTML(@message.message), :name => @message.user.email, :time => @message.created_at.strftime("%H:%M")}
-      }
-
-      uri = URI.parse("http://localhost:9292/faye")
-      Net::HTTP.post_form(uri, :message => message.to_json)
+      Message.broadcast({
+        message: @message,
+        type: "rooms",
+        id: params[:message][:room_id],
+        broadcast_uri: request.host
+      })
 
       render :partial => "ok.js"
     else

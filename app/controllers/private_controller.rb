@@ -4,8 +4,7 @@ class PrivateController < ApplicationController
   def show
     @user = User.find(params[:id])
     @message = Message.new
-    @chat_messages = Message.where("(user_id = ? AND to_user_id = ?) OR (user_id = ? AND to_user_id = ?)", 
-      params[:id], current_user.id, current_user.id, params[:id]).order("id DESC").limit(10).reverse
+    @chat_messages = Message.get_messages(params[:id], current_user.id, limit: true)
   end
 
   def create
@@ -13,13 +12,12 @@ class PrivateController < ApplicationController
     @message = Message.create(params[:message])
 
     if @message.valid?
-
-      message = {:channel => "/private/#{params[:message][:user_id]}",
-          :data => { :message => CGI.escapeHTML(@message.message), :name => @message.user.email, :time => @message.created_at.strftime("%H:%M")}
-      }
-
-      uri = URI.parse("http://localhost:9292/faye")
-      Net::HTTP.post_form(uri, :message => message.to_json)
+      Message.broadcast({
+        message: @message,
+        type: "private",
+        id: params[:message][:user_id],
+        broadcast_uri: request.host
+      })
     
       render :partial => "create.js"
     else
@@ -29,7 +27,6 @@ class PrivateController < ApplicationController
 
   def history
     @user = User.find(params[:id])
-    @chat_messages = Message.where("(user_id = ? AND to_user_id = ?) OR (user_id = ? AND to_user_id = ?)", 
-      params[:id], current_user.id, current_user.id, params[:id]).order("id ASC")
+    @chat_messages = Message.get_messages(params[:id], current_user.id)
   end
 end

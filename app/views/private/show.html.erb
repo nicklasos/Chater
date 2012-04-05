@@ -1,8 +1,11 @@
 <script>
 $(function() {
-    var client = new Faye.Client('http://localhost:9292/faye');
+  var client = new Faye.Client('http://<%= request.host %>:9292/faye');
     client.subscribe("/private/<%= params[:id] %>", function(data) {
       $('#chat').append("<p><small>"+data.time+"</small> <strong>"+data.name+"</strong>: "+data.message+"</p>");
+      var audioElement = document.createElement('audio');
+      audioElement.setAttribute('src', '/notification.wav');
+      audioElement.play();
     });
   });
 </script>
@@ -22,6 +25,11 @@ $(function() {
         <%= render(m) %>
       <% end %>
     </div>
+  </div>
+  <div class="span4">
+    <% if  current_user.id == @user.id %>
+      <img src="/img/foreveralone.gif" alt="foreveralone" />
+    <% end %>
   </div>
 </div>
 <hr />
