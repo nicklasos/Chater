@@ -8,7 +8,21 @@ class Message < ActiveRecord::Base
 
   class << self
     def smiles
-      ['challenge_accepted', 'fffuuu', 'forever_alone', 'lol', 'me_gusta', 'mega_yeah', 'okay', 'poker_face', 'trollface', 'true_story', 'why', 'wow', 'yao_ming']
+      [
+        'challenge_accepted',
+        'fffuuu',
+        'forever_alone',
+        'lol',
+        'me_gusta',
+        'mega_yeah',
+        'okay',
+        'poker_face',
+        'trollface',
+        'true_story',
+        'why',
+        'wow',
+        'yao_ming'
+      ]
     end
 
     def get_messages(id, user_id, params = {})
